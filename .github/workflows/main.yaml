@@ -1,4 +1,4 @@
-name: Deploy Todo API
+name: Deploy  todo-api
 
 on:
   push:
