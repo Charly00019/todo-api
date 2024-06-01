@@ -46,5 +46,5 @@ jobs:
           docker pull andrews011/todo-api:latest
           docker stop my-todo || true
           docker rm my-todo || true
-          docker run -d --name my-todo -p 8000:8080 andrews011/todo-api:latest
+          docker run -d --name my-todo -p 8000:8000 andrews011/todo-api:latest
           
