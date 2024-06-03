@@ -1,4 +1,4 @@
-name: Deploy todo-api django
+name: Deploy todo-api1 django
 
 on:
   push:
