@@ -1,10 +1,9 @@
-name: Deploy  todo-api
+name: Deploy todo-api
 
 on:
   push:
     branches:
       - main
-
 
 jobs:
   deploy:
@@ -17,8 +16,8 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build and push Docker image
       run: |
@@ -32,7 +31,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
 
-    - name: Configure SSH
+    - name: Add SSH key
       uses: webfactory/ssh-agent@v0.7.0
       with:
         ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
@@ -48,4 +47,3 @@ jobs:
           docker stop my-todo || true
           docker rm my-todo || true
           docker run -d --name my-todo -p 8000:8000 andrews011/todo-api:latest
-          
