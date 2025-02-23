@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_USERNAME = credentials('docker-hub-credentials')
-        DOCKER_PASSWORD = credentials('docker-hub-credentials')
+        // DOCKER_USERNAME = credentials('docker-hub-credentials')
+        // DOCKER_PASSWORD = credentials('docker-hub-credentials')
         REGISTRY = "docker.io"  // Change to your registry (e.g., ghcr.io, ECR, etc.)
         IMAGE_NAME = "andrews011/myapp"  // Change this to your actual Docker image name
         TAG = "latest"
