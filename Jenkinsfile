@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/Charly00019/todo-api.git'
+                git credentialsId: 'github_credential', branch: 'main', url: 'https://github.com/Charly00019/todo-api.git'
             }
         }
 
