@@ -7,12 +7,23 @@ pipeline {
         TAG = "latest"
     }
 
-    stages {
+        stages {
         stage('Clone Repository') {
             steps {
-                git credentialsId: 'github_credential', branch: 'main', url: 'https://github.com/Charly00019/todo-api.git'
+                script {
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/main']],
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/Charly00019/todo-api.git',
+                            credentialsId: 'github_credential'
+                        ]]
+                    ])
+                }
             }
         }
+    }
+}
 
         stage('Build Docker Image') {
             steps {
