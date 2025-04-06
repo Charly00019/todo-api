@@ -1,46 +1,39 @@
 pipeline {
-    agent any
-
-    environment {
-        REGISTRY = "docker.io"
-        IMAGE_NAME = "andrews011/myapp"
-        TAG = "latest"
+    agent {
+        label 'Job-Runner'  // Uses your specified agent
     }
-
-        stages {
-        stage('Clone Repository') {
+    
+    stages {
+        stage('Checkout') {
             steps {
-                script {
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: '*/main']],
-                        userRemoteConfigs: [[
-                            url: 'https://github.com/Charly00019/todo-api.git',
-                            credentialsId: 'github_credential'
-                        ]]
-                    ])
-                }
+                // Clone your GitHub repository
+                git branch: 'main',  // Change to your branch name
+                     url: 'https://github.com/your-username/your-repo.git'  // Update with your repo URL
+                
+                // Verify the repository was cloned
+                sh 'ls -la'
             }
         }
-    }
-}
-
-        stage('Build Docker Image') {
+        
+        stage('Display README') {
             steps {
+                // Check if README exists and display it
                 script {
-                    sh "docker build -t $REGISTRY/$IMAGE_NAME:$TAG ."
-                }
-            }
-        }
-
-        stage('Login and Push to Docker Registry') {
-            steps {
-                withDockerRegistry([credentialsId: 'docker-hub-credentials', url: 'https://index.docker.io/v1/']) {
-                    script {
-                        sh "docker push $REGISTRY/$IMAGE_NAME:$TAG"
+                    if (fileExists('README.md')) {
+                        echo "Contents of README.md:"
+                        sh 'cat README.md'
+                    } else {
+                        error "README.md not found in the repository root"
                     }
                 }
             }
+        }
+    }
+    
+    post {
+        always {
+            echo "Pipeline completed on agent: ${env.NODE_NAME}"
+            cleanWs()  // Optional: Clean the workspace after build
         }
     }
 }
