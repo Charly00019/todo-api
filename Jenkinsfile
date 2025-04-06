@@ -8,7 +8,7 @@ pipeline {
             steps {
                 // Clone your GitHub repository
                 git branch: 'main',  // Change to your branch name
-                     url: 'https://github.com/your-username/your-repo.git'  // Update with your repo URL
+                     url: 'https://github.com/Charly00019/todo-api.git'  // Update with your repo URL
                 
                 // Verify the repository was cloned
                 sh 'ls -la'
