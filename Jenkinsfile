@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'Job-Runner'  // Uses your specified agent
+        label 'dind'  // Uses your specified agent
     }
     
     stages {
