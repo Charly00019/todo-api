@@ -22,5 +22,5 @@ RUN python manage.py collectstatic --noinput
 # Expose internal Django app port
 EXPOSE 8000
 
-# Start Django with Gunicorn
-CMD ["gunicorn", "todo_api.wsgi:application", "--bind", "0.0.0.0:80"]
+# Start Django with Python 
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
