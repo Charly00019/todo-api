@@ -1,42 +1,26 @@
-# Use the official Python 3.11 slim image as the base
 # Use a stable Python base image
 FROM python:3.9-slim
 
-# Set the working directory to /app
-# Set environment variables
+# Prevents Python from writing pyc files and enables unbuffered output
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set work directory
+# Set working directory
 WORKDIR /app
 
-# Copy the requirements file into the container
-# Copy dependencies
+# Copy requirements and install dependencies
 COPY requirements.txt .
-
-# Install the Python dependencies
-RUN pip install -r requirements.txt
-# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install gunicorn
 
-# Copy the entire project into the container
-# Copy project files
+# Copy the Django project
 COPY . .
-
-RUN python manage.py makemigrations
-
-RUN python manage.py migrate
-
-RUN python manage.py createsuperuser
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
-# Expose the port the Django app runs on
-# Expose Django app port (used by nginx internally)
+# Expose internal Django app port
 EXPOSE 8000
 
-# Start the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-# Command to run the app
+# Start Django with Gunicorn
 CMD ["gunicorn", "todo_api.wsgi:application", "--bind", "0.0.0.0:8000"]
